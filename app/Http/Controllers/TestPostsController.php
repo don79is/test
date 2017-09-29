@@ -12,7 +12,11 @@ use Ramsey\Uuid\Uuid;
 
 class TestPostsController extends Controller
 {
+public function allPostsFrontEnd(){
+    $conf['lists'] = TestPosts::get()->toArray();
 
+    return view('user.all-posts', $conf);
+}
     /**
      * Display a listing of the resource.
      * GET /testposts
@@ -22,14 +26,13 @@ class TestPostsController extends Controller
     public function index()
     {
 
-        $conf['list'] = TestPosts::get()->toArray();
-        $conf['edit'] = 'app.posts.edit';
-        $conf['delete'] = 'app.posts.delete';
-        $conf['show'] = 'app.posts.show';
+        $conf['lists'] = TestPosts::get()->toArray();
+//        $conf['edit'] = 'app.posts.edit';
+//        $conf['delete'] = 'app.posts.delete';
+//        $conf['show'] = 'app.posts.show';
 //        $conf['user_id'] = Auth::user()->name;
 
 //dd($conf);
-
 
 
         return view('user.all-posts', $conf);
@@ -82,9 +85,15 @@ class TestPostsController extends Controller
      */
     public function show($id)
     {
-//        $conf = TestPosts::find($id)->toArray();
-//
-        return view('user.post');
+        $post = TestPosts::find($id);
+
+//        dd($post);
+//        $data = ([
+//            'id' => $id,
+//            'post' => $post
+//        ]);
+        return view('user.post')->withPost($post);
+
     }
 
     /**
@@ -94,9 +103,12 @@ class TestPostsController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
+        $post = TestPosts::find($id);
 
+        return view('user.edit')->withPost($post);
     }
 
     /**
@@ -106,7 +118,8 @@ class TestPostsController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function update($id)
+    public
+    function update($id)
     {
         //
     }
@@ -118,7 +131,8 @@ class TestPostsController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         TestPosts::destroy($id);
 

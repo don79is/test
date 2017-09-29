@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/', ['as' => 'app.posts.all', 'uses' => 'TestPostsController@allPostsFrontEnd']);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -24,7 +24,7 @@ Route::group(['prefix' => '/user', 'middleware' => ['auth', 'user-check']], func
     Route::get('/post', ['as' => 'app.posts.create', 'uses' => 'TestPostsController@create']);
     Route::post('/posts', ['as' => 'app.posts.store', 'uses' => 'TestPostsController@store']);
     Route::group(['prefix' => '{id}'], function () {
-        Route::get('/', ['as' => 'app.posts.show', 'uses' => 'TestPostsController@show']);
+        Route::get('/show', ['as' => 'app.posts.show', 'uses' => 'TestPostsController@show']);
         Route::get('/', ['as' => 'app.posts.delete', 'uses' => 'TestPostsController@destroy']);
         Route::get('/edit', ['as' => 'app.posts.edit', 'uses' => 'TestPostsController@edit']);
         Route::post('/edit', ['as' => 'app.posts.update', 'uses' => 'TestPostsController@update']);
